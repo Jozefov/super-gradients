@@ -376,7 +376,13 @@ class DetectionDataset(Dataset, HasPreprocessingParams, HasClassesInformation):
         for field in self.output_fields:
             if field not in sample.keys():
                 raise KeyError(f"The field {field} must be present in the sample but was not found." "Please check the output fields of your transforms.")
-        return tuple(sample[field] for field in self.output_fields)
+        if "image_path" not in self.output_fields:
+            # If 'image_path' is not in the output fields, add it explicitly
+            return tuple(sample[field] for field in self.output_fields) + (sample["image_path"],)
+        else:
+            # If 'image_path' is already in the output fields, just return as usual
+            return tuple(sample[field] for field in self.output_fields)
+
 
     def get_random_item(self):
         return self[self.get_random_sample(ignore_empty_annotations=self.ignore_empty_annotations)]
