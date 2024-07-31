@@ -177,7 +177,7 @@ class DetectionDataset(Dataset, HasPreprocessingParams, HasClassesInformation):
 
         self.transforms = transforms
 
-        self.output_fields = output_fields or ["image", "target"]
+        self.output_fields = output_fields or ["image", "target", "image_path"]
         if len(self.output_fields) < 2 or self.output_fields[0] != "image" or self.output_fields[1] != "target":
             raise ValueError('output_fields must start with "image" and then "target", followed by any other field')
 
