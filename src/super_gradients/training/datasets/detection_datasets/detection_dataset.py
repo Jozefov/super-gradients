@@ -384,12 +384,13 @@ class DetectionDataset(Dataset, HasPreprocessingParams, HasClassesInformation):
     def get_sample(self, index: int, ignore_empty_annotations: bool = False) -> Dict[str, Union[np.ndarray, Any]]:
         """Get raw sample, before any transform (beside subclassing).
         :param index:                       Index refers to the index of the sample in the dataset, AFTER filtering (if relevant). 0<=index<=len(dataset)-1
+        :param image_path:                  Return image index
         :param ignore_empty_annotations:    If True, empty annotations will be ignored
         :return:                            Sample, i.e. a dictionary including at least "image" and "target"
         """
         sample_annotations = self._get_sample_annotations(index=index, ignore_empty_annotations=ignore_empty_annotations)
         image = self._load_resized_img(image_path=sample_annotations["img_path"])
-        return {"image": image, **deepcopy(sample_annotations)}
+        return {"image": image, "image_path": index , **deepcopy(sample_annotations)}
 
     def apply_transforms(self, sample: Dict[str, Union[np.ndarray, Any]]) -> Dict[str, Union[np.ndarray, Any]]:
         """
