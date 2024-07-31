@@ -378,7 +378,7 @@ class DetectionDataset(Dataset, HasPreprocessingParams, HasClassesInformation):
                 raise KeyError(f"The field {field} must be present in the sample but was not found." "Please check the output fields of your transforms.")
         if "image_path" not in self.output_fields:
             # If 'image_path' is not in the output fields, add it explicitly
-            return tuple(sample[field] for field in self.output_fields) + (sample["image_path"],)
+            return tuple(sample[field] for field in self.output_fields) + (index,)
         else:
             # If 'image_path' is already in the output fields, just return as usual
             return tuple(sample[field] for field in self.output_fields)
